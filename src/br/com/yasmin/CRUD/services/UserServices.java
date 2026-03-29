@@ -1,5 +1,4 @@
 package br.com.yasmin.CRUD.services;
-
 import br.com.yasmin.CRUD.models.User;
 import br.com.yasmin.CRUD.repository.UserRepository;
 import java.util.List;
@@ -7,10 +6,12 @@ import java.util.List;
 
 public class UserServices {
     private UserRepository userRepository;
-    public UserServices(final UserRepository userRepository){
+    public UserServices(final UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
     private void verifyIfEmailIsUnique(String email) {
+        //Assume email já validado antes
            if (userRepository.findByEmail(email) != null) {
                throw new RuntimeException("Email already exists");
            }
@@ -35,45 +36,47 @@ public class UserServices {
     }
     public void deleteUser(String id)
     {
-        validatesUserExistence(id);
+        validatesUserExists(id);
         userRepository.deleteUserById(id);
     }
     public void updateUserName(String id, String newName)
     {
-        validatesUserExistence(id);
+        validatesUserExists(id);
         if (newName == null || newName.isBlank())
         {
             throw new IllegalArgumentException("New name is null or blank");
         }
-        userRepository.updateUserName(id, newName);
+        User u = userRepository.getUserById(id);
+        u.setName(newName);
     }
 
-    private void validatesUserExistence(String id) {
+    private User validatesUserExists(String id) {
         User user = userRepository.getUserById(id);
         if (user == null)
         {
             throw new IllegalArgumentException("User not found");
         }
+        return user;
     }
 
     public void updateUserAge(String id, int newAge)
     {
-        validatesUserExistence(id);
+       User u = validatesUserExists(id);
         if (newAge <= 0)
         {
             throw new IllegalArgumentException("Age is negative or 0");
         }
-        userRepository.updateUserage(id, newAge);
+        u.setAge(newAge);
     }
     public void updateUserEmail(String id, String newEmail)
     {
-        validatesUserExistence(id);
-        verifyIfEmailIsUnique(newEmail);
+        User u = validatesUserExists(id);
         if (newEmail.isBlank())
         {
             throw new IllegalArgumentException("Email is null or blank");
         }
-        userRepository.updateUserEmail(id, newEmail);
+        verifyIfEmailIsUnique(newEmail);
+        u.setEmail(newEmail);
     }
     public List<User> getAllUsers()
     {

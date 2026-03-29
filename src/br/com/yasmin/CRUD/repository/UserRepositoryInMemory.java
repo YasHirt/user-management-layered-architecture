@@ -15,34 +15,6 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public void updateUserName(String id, String newName) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                user.setName(newName);
-            }
-        }
-    }
-
-    @Override
-    public void updateUserEmail(String id, String newEmail) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                user.setEmail(newEmail);
-            }
-        }
-
-    }
-
-    @Override
-    public void updateUserage(String id, int newAge) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                user.setAge(newAge);
-            }
-        }
-
-    }
-    @Override
     public User getUserById(String id) {
         for (User user : users) {
             if (user.getId().equals(id)) {
