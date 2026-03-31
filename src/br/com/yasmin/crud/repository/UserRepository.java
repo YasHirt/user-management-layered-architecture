@@ -1,6 +1,6 @@
-package br.com.yasmin.CRUD.repository;
+package br.com.yasmin.crud.repository;
 
-import br.com.yasmin.CRUD.models.User;
+import br.com.yasmin.crud.models.User;
 
 import java.util.List;
 

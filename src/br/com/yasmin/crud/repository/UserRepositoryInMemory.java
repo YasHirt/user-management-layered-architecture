@@ -1,5 +1,5 @@
-package br.com.yasmin.CRUD.repository;
-import br.com.yasmin.CRUD.models.User;
+package br.com.yasmin.crud.repository;
+import br.com.yasmin.crud.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +42,8 @@ public class UserRepositoryInMemory implements UserRepository {
     public User findByEmail(String email) {
         for (User user : users) {
             if(user.getEmail().equals(email)) {
+                System.out.println(users.size());
+                System.out.println(user);
                 return user;
             }
 

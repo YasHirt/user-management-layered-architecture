@@ -1,8 +1,8 @@
-package br.com.yasmin.CRUD.services;
-import br.com.yasmin.CRUD.models.User;
-import br.com.yasmin.CRUD.repository.UserRepository;
+package br.com.yasmin.crud.services;
+import br.com.yasmin.crud.models.User;
+import br.com.yasmin.crud.repository.UserRepository;
 import java.util.List;
-
+import br.com.yasmin.crud.exceptions.*;
 
 public class UserServices {
     private UserRepository userRepository;
@@ -11,27 +11,39 @@ public class UserServices {
         this.userRepository = userRepository;
     }
     private void verifyIfEmailIsUnique(String email) {
-        //Assume email já validado antes
            if (userRepository.findByEmail(email) != null) {
-               throw new RuntimeException("Email already exists");
+               throw new EmailAlreadyExistis("Email Already Exists");
            }
+    }
+    private User validatesUserExists(String id) {
+        User user = userRepository.getUserById(id);
+        if (user == null)
+        {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user;
     }
     public void registerUser(User u)
     {
         if (u.getName() == null || u.getName().isBlank())
         {
-            throw new IllegalArgumentException("Username is null or blank");
+            throw new IllegalArgumentException(" Username is null or blank");
         }
         if (u.getEmail() == null || u.getEmail().isBlank())
         {
-            throw new IllegalArgumentException("Email is null or blank");
+            throw new IllegalArgumentException(" Email is null or blank");
         }
         if (u.getAge() <= 0)
         {
-            throw new IllegalArgumentException("Age is negative or 0");
+            throw new IllegalArgumentException(" Age is negative or 0");
         }
-        verifyIfEmailIsUnique(u.getEmail());
+        if (userRepository.findByEmail(u.getEmail()) != null)
+        {
+            throw new EmailAlreadyExistis("Email Already Exists");
+        }
         userRepository.save(u);
+        //verifyIfEmailIsUnique(u.getEmail());
+        //userRepository.save(u);
 
     }
     public void deleteUser(String id)
@@ -48,15 +60,6 @@ public class UserServices {
         }
         User u = userRepository.getUserById(id);
         u.setName(newName);
-    }
-
-    private User validatesUserExists(String id) {
-        User user = userRepository.getUserById(id);
-        if (user == null)
-        {
-            throw new IllegalArgumentException("User not found");
-        }
-        return user;
     }
 
     public void updateUserAge(String id, int newAge)
@@ -77,6 +80,20 @@ public class UserServices {
         }
         verifyIfEmailIsUnique(newEmail);
         u.setEmail(newEmail);
+    }
+
+    public User getUserByEmail(String email)
+    {
+        if (email == null || email.isBlank())
+        {
+            throw new IllegalArgumentException("Email is null or blank");
+        }
+       User u = userRepository.findByEmail(email);
+       if (u == null)
+        {
+            throw new IllegalArgumentException("User not found with this email");
+        }
+        return u;
     }
     public List<User> getAllUsers()
     {
