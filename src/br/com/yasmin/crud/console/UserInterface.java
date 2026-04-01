@@ -6,8 +6,8 @@ import br.com.yasmin.crud.models.User;
 import java.util.Scanner;
 
 public class UserInterface {
-    private UserController userController;
-    private Scanner sc = new Scanner(System.in);
+    private final UserController userController;
+    private final Scanner sc = new Scanner(System.in);
     public UserInterface(final UserController userController) {
         this.userController = userController;
     }
@@ -15,23 +15,22 @@ public class UserInterface {
     {
         System.out.println(" 1. Create User\n 2. Update User\n 3. Delete User\n 4. List Users\n 5. Get User by email\n 6. Exit");
     }
-    public int getInput()
+    public int getInputInt(int min, int max)
     {
         while (true)
         {
             try {
                 int input = Integer.parseInt(sc.nextLine());
-                if (input < 1 || input > 5)
+                if (input < min || input > max)
                 {
                     throw new IllegalArgumentException("Invalid input");
                 }
                 return input;
 
             } catch (Exception e) {
-                System.out.println("Please enter a number between in the correct range");
+                System.out.println("Please enter a number between " + min + " and " + max);
             }
         }
-
     }
     public String setUserName()
     {
@@ -52,9 +51,6 @@ public class UserInterface {
             }
 
         }
-
-
-
     }
     public String setUserEmail()
     {
@@ -102,7 +98,7 @@ public class UserInterface {
         {
             User u = new User();
             interfaceMenu();
-            userInput = getInput();
+            userInput = getInputInt(1,6);
             switch (userInput)
             {
                 case 1:
@@ -115,7 +111,6 @@ public class UserInterface {
                             userController.registerUser(u);
                             System.out.println("User registered successfully");
                             break;
-
                         }
                         catch(Exception e)
                         {
@@ -123,68 +118,72 @@ public class UserInterface {
 
                                 System.out.println(e.getMessage());
                                 u.setEmail(setUserEmail());
-
-
                             }
-
                         }
                     }
                     break; //break case 1
                 case 2:
-                    int optionToUpdate = 1;
-                    User h;
-                    while (true) {
+                    int optionToUpdate;
+                    User h =  new User();
+                    while (true)
+                    {
                         try {
                             System.out.println("What's the email of the user you want to update?");
                             String EmailToBeFound = sc.nextLine();
-                             h = userController.getUserByEmail(EmailToBeFound);
+                            h = userController.getUserByEmail(EmailToBeFound);
                             break;
                         } catch (UserNotFoundException e) {
-                            System.out.println("User not found with this email, try again");
+                            System.out.println("User not found with this email, what would you like to do?\n 1- Try again\n2- Exit to main menu \n 3- Exit system");
+                            optionToUpdate = getInputInt(1,3);
+                            if (optionToUpdate == 2) {
+                                h.setName("not found"); //jeito para voltar ao menu principal
+                                break;
+                            }
+                            if (optionToUpdate == 3) {
+                                System.exit(0);
+                            }
                         }
                     }
-                    System.out.println("Welcome mr/ms " + h.getName() + " what would you like to do?");
-                    System.out.println("1- Update email\n2- Update name\n3- Update age");
-                    optionToUpdate = getInput();
-                    switch (optionToUpdate)
+                    if (h.getEmail() != null)
                     {
-                        case 1:
-                            while (true)
-                            {
-                                try {
-                                    System.out.println("Enter your new email");
-                                    String newEmail = sc.nextLine();
-                                    userController.UpdateUserEmail(h.getId(),  newEmail);
-                                    System.out.println("Email updated successfully");
-                                    break;
-                                } catch (EmailAlreadyExistis e) {
-                                    System.out.println(e.getMessage() + " try again");
+                        System.out.println("Welcome mr/ms " + h.getName() + " what would you like to do?");
+                        System.out.println("1- Update email\n2- Update name\n3- Update age");
+                        optionToUpdate = getInputInt(1,3);
+                        switch (optionToUpdate) {
+                            case 1:
+                                while (true) {
+                                    try {
+                                        System.out.println("Enter your new email");
+                                        String newEmail = sc.nextLine();
+                                        userController.UpdateUserEmail(h.getId(), newEmail);
+                                        System.out.println("Email updated successfully");
+                                        break;
+                                    } catch (EmailAlreadyExistis e) {
+                                        System.out.println(e.getMessage() + " try again");
+                                    }
                                 }
-                            }
 
-                            break; //break case 1
-                        case 2:
-                        while (true)
-                        {
-                            try {
-                                System.out.println("What is your new name? ");
-                                String newName = sc.nextLine();
-                                userController.UpdateUserName(h.getId(),  newName);
-                                System.out.println("Name updated successfully");
-                                break;
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage() + " try again");
-                            }
-                        }
-                        break; //break case 2
+                                break; //break case 1
+                            case 2:
+                                while (true) {
+                                    try {
+                                        System.out.println("What is your new name? ");
+                                        String newName = sc.nextLine();
+                                        userController.UpdateUserName(h.getId(), newName);
+                                        System.out.println("Name updated successfully");
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage() + " try again");
+                                    }
+                                }
+                                break; //break case 2
                             case 3:
-                                while (true)
-                                {
+                                while (true) {
                                     try {
                                         int newAge;
                                         System.out.println("What is your new age? ");
                                         newAge = Integer.parseInt(sc.nextLine());
-                                        userController.UpdateUserAge(h.getId(),  newAge);
+                                        userController.UpdateUserAge(h.getId(), newAge);
                                         System.out.println("Age updated successfully");
                                         break;
                                     } catch (Exception e) {
@@ -194,6 +193,13 @@ public class UserInterface {
 
 
                                 break; //break case 3
+
+                        }
+
+                    }
+                    else
+                    {
+                        break;
                     }
 
                 break; //break case 2

@@ -13,10 +13,9 @@ public class UserController
     {
         this.userServices = userServices;
     }
-    public boolean registerUser(User user)
+    public void registerUser(User user)
     {
         userServices.registerUser(user);
-        return true;
     }
     public List<User> ReadUsers()
     {
