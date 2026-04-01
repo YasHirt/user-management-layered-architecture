@@ -17,8 +17,21 @@ public class UserInterface {
     }
     public int getInput()
     {
-        System.out.println("What would you like to do?");
-        return  Integer.parseInt(sc.nextLine());
+        while (true)
+        {
+            try {
+                int input = Integer.parseInt(sc.nextLine());
+                if (input < 1 || input > 5)
+                {
+                    throw new IllegalArgumentException("Invalid input");
+                }
+                return input;
+
+            } catch (Exception e) {
+                System.out.println("Please enter a number between in the correct range");
+            }
+        }
+
     }
     public String setUserName()
     {
@@ -28,7 +41,7 @@ public class UserInterface {
             {
                 System.out.println("Enter your name");
                 String userName = sc.nextLine();
-                if (userName.isBlank() || userName == null){
+                if (userName.isBlank()){
                     throw new RuntimeException("Username is null or blank");
                 }
                 return userName;
@@ -51,7 +64,7 @@ public class UserInterface {
             {
                 System.out.println("Enter your email");
                 String userEmail = sc.nextLine();
-                if (userEmail.isBlank() || userEmail == null){
+                if (userEmail.isBlank()){
                     throw new RuntimeException("Email is null or blank");
                 }
                 return userEmail;
@@ -83,7 +96,8 @@ public class UserInterface {
     }
     public void start()
     {
-        int userInput = 1;
+        System.out.println("What would you like to do?");
+        int userInput;
         while (true)
         {
             User u = new User();
@@ -141,9 +155,10 @@ public class UserInterface {
                                     System.out.println("Enter your new email");
                                     String newEmail = sc.nextLine();
                                     userController.UpdateUserEmail(h.getId(),  newEmail);
+                                    System.out.println("Email updated successfully");
                                     break;
                                 } catch (EmailAlreadyExistis e) {
-                                    System.out.println(e.getMessage() + "try again");
+                                    System.out.println(e.getMessage() + " try again");
                                 }
                             }
 
@@ -155,9 +170,10 @@ public class UserInterface {
                                 System.out.println("What is your new name? ");
                                 String newName = sc.nextLine();
                                 userController.UpdateUserName(h.getId(),  newName);
+                                System.out.println("Name updated successfully");
                                 break;
                             } catch (Exception e) {
-                                System.out.println(e.getMessage() + "try again");
+                                System.out.println(e.getMessage() + " try again");
                             }
                         }
                         break; //break case 2
@@ -169,9 +185,10 @@ public class UserInterface {
                                         System.out.println("What is your new age? ");
                                         newAge = Integer.parseInt(sc.nextLine());
                                         userController.UpdateUserAge(h.getId(),  newAge);
+                                        System.out.println("Age updated successfully");
                                         break;
                                     } catch (Exception e) {
-                                        System.out.println(e.getMessage() + "try again");
+                                        System.out.println(e.getMessage() + " try again");
                                     }
                                 }
 
@@ -198,6 +215,7 @@ public class UserInterface {
                         }
 
                     }
+                break; //break case 5
                 case 6:
                     System.exit(0);
                     break;
