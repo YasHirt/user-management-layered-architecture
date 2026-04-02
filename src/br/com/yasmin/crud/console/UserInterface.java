@@ -1,6 +1,6 @@
 package br.com.yasmin.crud.console;
 import br.com.yasmin.crud.controller.UserController;
-import br.com.yasmin.crud.exceptions.EmailAlreadyExistis;
+import br.com.yasmin.crud.exceptions.EmailAlreadyExistsException;
 import br.com.yasmin.crud.exceptions.UserNotFoundException;
 import br.com.yasmin.crud.models.User;
 import java.util.Scanner;
@@ -168,7 +168,7 @@ public class UserInterface {
                         userController.updateUserEmail(h.getId(), newEmail);
                         System.out.println("Email updated successfully");
                         break;
-                    } catch (EmailAlreadyExistis e) {
+                    } catch (EmailAlreadyExistsException e) {
                         System.out.println(e.getMessage() + " try again");
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage() + " try again");
@@ -211,7 +211,7 @@ public class UserInterface {
                 System.out.println("User registered successfully");
                 break;
             }
-            catch(EmailAlreadyExistis e)
+            catch(EmailAlreadyExistsException e)
             {
                     System.out.println(e.getMessage());
                     u.setEmail(setUserEmail());

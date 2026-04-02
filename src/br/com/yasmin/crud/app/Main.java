@@ -8,9 +8,9 @@ import br.com.yasmin.crud.services.UserServices;
 
 public class Main {
     final static UserRepository userRepository = new UserRepositoryInMemory();
-    private static  UserServices userServices = new UserServices(userRepository);
-    private static UserController userController = new UserController(userServices);
-    private static  UserInterface userInterface = new UserInterface(userController);
+    final private static  UserServices userServices = new UserServices(userRepository);
+    final private static UserController userController = new UserController(userServices);
+    final private static  UserInterface userInterface = new UserInterface(userController);
     public static void main(String[] args) {
         userInterface.start();
 

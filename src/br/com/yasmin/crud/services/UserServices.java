@@ -12,7 +12,7 @@ public class UserServices {
     }
     private void verifyIfEmailIsUnique(String email) {
            if (userRepository.findByEmail(email) != null) {
-               throw new EmailAlreadyExistis("Email Already Exists");
+               throw new EmailAlreadyExistsException("Email Already Exists");
            }
     }
     private User validatesUserExists(String id) {
