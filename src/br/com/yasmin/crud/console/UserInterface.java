@@ -73,6 +73,7 @@ public class UserInterface {
     }
     public int  setUserAge()
     {
+        //there is a bug here somewhere, solve it
         System.out.println("Enter your AGE");
         int userAge;
         while (true) {
@@ -103,135 +104,138 @@ public class UserInterface {
             switch (userInput)
             {
                 case 1:
-                    u.setName(setUserName());
-                    u.setEmail(setUserEmail());
-                    u.setAge(setUserAge());
-                    while (true)
-                    {
-                        try {
-                            userController.registerUser(u);
-                            System.out.println("User registered successfully");
-                            break;
-                        }
-                        catch(Exception e)
-                        {
-                            if (e.getClass() == EmailAlreadyExistis.class) {
-
-                                System.out.println(e.getMessage());
-                                u.setEmail(setUserEmail());
-                            }
-                        }
-                    }
+                    handleCreateUser(u);
                     break; //break case 1
                 case 2:
-                    int optionToUpdate;
-                    User h =  new User();
-                    while (true)
-                    {
-                        try {
-                            System.out.println("What's the email of the user you want to update?");
-                            String EmailToBeFound = sc.nextLine();
-                            h = userController.getUserByEmail(EmailToBeFound);
-                            break;
-                        } catch (UserNotFoundException e) {
-                            System.out.println("User not found with this email, what would you like to do?\n 1- Try again\n2- Exit to main menu \n 3- Exit system");
-                            optionToUpdate = getInputInt(1,3);
-                            if (optionToUpdate == 2) {
-                                h.setName("not found"); //jeito para voltar ao menu principal
-                                break;
-                            }
-                            if (optionToUpdate == 3) {
-                                System.exit(0);
-                            }
-                        }
-                    }
-                    if (h.getEmail() != null)
-                    {
-                        System.out.println("Welcome mr/ms " + h.getName() + " what would you like to do?");
-                        System.out.println("1- Update email\n2- Update name\n3- Update age");
-                        optionToUpdate = getInputInt(1,3);
-                        switch (optionToUpdate) {
-                            case 1:
-                                while (true) {
-                                    try {
-                                        System.out.println("Enter your new email");
-                                        String newEmail = sc.nextLine();
-                                        userController.UpdateUserEmail(h.getId(), newEmail);
-                                        System.out.println("Email updated successfully");
-                                        break;
-                                    } catch (EmailAlreadyExistis e) {
-                                        System.out.println(e.getMessage() + " try again");
-                                    }
-                                }
-
-                                break; //break case 1
-                            case 2:
-                                while (true) {
-                                    try {
-                                        System.out.println("What is your new name? ");
-                                        String newName = sc.nextLine();
-                                        userController.UpdateUserName(h.getId(), newName);
-                                        System.out.println("Name updated successfully");
-                                        break;
-                                    } catch (Exception e) {
-                                        System.out.println(e.getMessage() + " try again");
-                                    }
-                                }
-                                break; //break case 2
-                            case 3:
-                                while (true) {
-                                    try {
-                                        int newAge;
-                                        System.out.println("What is your new age? ");
-                                        newAge = Integer.parseInt(sc.nextLine());
-                                        userController.UpdateUserAge(h.getId(), newAge);
-                                        System.out.println("Age updated successfully");
-                                        break;
-                                    } catch (Exception e) {
-                                        System.out.println(e.getMessage() + " try again");
-                                    }
-                                }
-
-
-                                break; //break case 3
-
-                        }
-
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                break; //break case 2
-
-
+                    handleUpdateUser();
+                    break; //break case 2
                 case 4:
                     System.out.println(userController.ReadUsers().toString());
                     break;
                 case 5:
-                    while (true) {
-                        try {
-                            System.out.println("What's the email of the user you wanna find? ");
-                            String email = sc.nextLine();
-                            User k = userController.getUserByEmail(email);
-                            System.out.println(k.toString());
-                            break;
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage() + " Try again");
-                        }
-
-                    }
-                break; //break case 5
+                    handleFindUserByEmail();
+                    break; //break case 5
                 case 6:
                     System.exit(0);
                     break;
+            }
+        }
+    }
+
+    private void handleFindUserByEmail() {
+        while (true) {
+            try {
+                System.out.println("What's the email of the user you wanna find? ");
+                String email = sc.nextLine();
+                User k = userController.getUserByEmail(email);
+                System.out.println(k.toString());
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage() + " Try again");
+            }
+
+        }
+    }
+
+    private void handleUpdateUser() {
+        int optionToUpdate;
+        User h =  new User();
+        while (true)
+        {
+            try {
+                System.out.println("What's the email of the user you want to update?");
+                String EmailToBeFound = sc.nextLine();
+                h = userController.getUserByEmail(EmailToBeFound);
+                break;
+            } catch (UserNotFoundException e) {
+                System.out.println("User not found with this email, what would you like to do?\n 1- Try again\n 2- Exit to main menu \n 3- Exit system");
+                optionToUpdate = getInputInt(1,3);
+                if (optionToUpdate == 2) {
+                    h.setName("not found"); //jeito para voltar ao menu principal
+                    break;
+                }
+                if (optionToUpdate == 3) {
+                    System.exit(0);
+                }
+            }
+        }
+        if (h.getEmail() != null)
+        {
+            System.out.println("Welcome mr/ms " + h.getName() + " what would you like to do?");
+            System.out.println("1- Update email\n2- Update name\n3- Update age");
+            optionToUpdate = getInputInt(1,3);
+            switch (optionToUpdate) {
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("Enter your new email");
+                            String newEmail = sc.nextLine();
+                            userController.UpdateUserEmail(h.getId(), newEmail);
+                            System.out.println("Email updated successfully");
+                            break;
+                        } catch (EmailAlreadyExistis e) {
+                            System.out.println(e.getMessage() + " try again");
+                        }
+                        catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage() + " try again");
+                        }
+                    }
+
+                    break; //break case 1
+                case 2:
+                    while (true) {
+                        try {
+                            System.out.println("What is your new name? ");
+                            String newName = sc.nextLine();
+                            userController.UpdateUserName(h.getId(), newName);
+                            System.out.println("Name updated successfully");
+                            break;
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage() + " try again");
+                        }
+                    }
+                    break; //break case 2
+                case 3:
+                    while (true) {
+                        try {
+                            int newAge;
+                            System.out.println("What is your new age? ");
+                            newAge = Integer.parseInt(sc.nextLine());
+                            userController.UpdateUserAge(h.getId(), newAge);
+                            System.out.println("Age updated successfully");
+                            break;
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage() + " try again");
+                        }
+                    }
+
+
+                    break; //break case 3
 
             }
 
-
         }
-
-
+        else
+        {
+            return;
+        }
     }
+    private void handleCreateUser(User u) {
+        u.setName(setUserName());
+        u.setEmail(setUserEmail());
+        u.setAge(setUserAge());
+        while (true)
+        {
+            try {
+                userController.registerUser(u);
+                System.out.println("User registered successfully");
+                break;
+            }
+            catch(EmailAlreadyExistis e)
+            {
+                    System.out.println(e.getMessage());
+                    u.setEmail(setUserEmail());
+            }
+        }
+        }
 }
