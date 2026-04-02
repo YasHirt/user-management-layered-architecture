@@ -49,7 +49,6 @@ public class UserInterface {
             {
                 System.out.println("ERROR: " + e.getMessage());
             }
-
         }
     }
     public String setUserEmail()
@@ -60,7 +59,8 @@ public class UserInterface {
             {
                 System.out.println("Enter your email");
                 String userEmail = sc.nextLine();
-                if (userEmail.isBlank()){
+                if (userEmail.isBlank())
+                {
                     throw new IllegalArgumentException("Email is null or blank");
                 }
                 return userEmail;
@@ -74,14 +74,14 @@ public class UserInterface {
     public int  setUserAge()
     {
         //there is a bug here somewhere, solve it
-        System.out.println("Enter your AGE");
         int userAge;
         while (true) {
+            System.out.println("Enter your AGE");
+
             try {
                 userAge = Integer.parseInt(sc.nextLine());
                 if (userAge < 0 || userAge > 100) {
                     System.out.println("Invalid age, try again");
-                    userAge = Integer.parseInt(sc.nextLine());
                 }
                 else {
                     return userAge;
@@ -91,7 +91,6 @@ public class UserInterface {
             }
         }
     }
-
     public void start()
     {
         System.out.println("What would you like to do?");
@@ -121,7 +120,6 @@ public class UserInterface {
             }
         }
     }
-
     private void handleFindUserByEmail() {
         while (true) {
             try {
