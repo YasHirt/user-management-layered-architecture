@@ -27,7 +27,7 @@ public class UserInterface {
                 }
                 return input;
 
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("Please enter a number between " + min + " and " + max);
             }
         }
@@ -73,7 +73,6 @@ public class UserInterface {
     }
     public int  setUserAge()
     {
-        //there is a bug here somewhere, solve it
         int userAge;
         while (true) {
             System.out.println("Enter your AGE");
@@ -97,19 +96,18 @@ public class UserInterface {
         int userInput;
         while (true)
         {
-            User u = new User();
             interfaceMenu();
             userInput = getInputInt(1,6);
             switch (userInput)
             {
                 case 1:
-                    handleCreateUser(u);
+                    handleCreateUser();
                     break; //break case 1
                 case 2:
                     handleUpdateUser();
                     break; //break case 2
                 case 4:
-                    System.out.println(userController.ReadUsers().toString());
+                    System.out.println(userController.readUsers().toString());
                     break;
                 case 5:
                     handleFindUserByEmail();
@@ -168,7 +166,7 @@ public class UserInterface {
                         try {
                             System.out.println("Enter your new email");
                             String newEmail = sc.nextLine();
-                            userController.UpdateUserEmail(h.getId(), newEmail);
+                            userController.updateUserEmail(h.getId(), newEmail);
                             System.out.println("Email updated successfully");
                             break;
                         } catch (EmailAlreadyExistis e) {
@@ -185,30 +183,18 @@ public class UserInterface {
                         try {
                             System.out.println("What is your new name? ");
                             String newName = sc.nextLine();
-                            userController.UpdateUserName(h.getId(), newName);
+                            userController.updateUserName(h.getId(), newName);
                             System.out.println("Name updated successfully");
                             break;
                         } catch (Exception e) {
                             System.out.println(e.getMessage() + " try again");
                         }
                     }
-                    break; //break case 2
+                    break;
                 case 3:
-                    while (true) {
-                        try {
-                            int newAge;
-                            System.out.println("What is your new age? ");
-                            newAge = Integer.parseInt(sc.nextLine());
-                            userController.UpdateUserAge(h.getId(), newAge);
-                            System.out.println("Age updated successfully");
-                            break;
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage() + " try again");
-                        }
-                    }
-
-
-                    break; //break case 3
+                   h.setAge(setUserAge());
+                   System.out.println("Age updated successfully");
+                   break;
 
             }
 
@@ -218,7 +204,8 @@ public class UserInterface {
             return;
         }
     }
-    private void handleCreateUser(User u) {
+    private void handleCreateUser() {
+        User u = new User();
         u.setName(setUserName());
         u.setEmail(setUserEmail());
         u.setAge(setUserAge());

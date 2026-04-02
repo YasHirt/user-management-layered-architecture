@@ -1,6 +1,5 @@
 package br.com.yasmin.crud.controller;
 
-import br.com.yasmin.crud.console.UserInterface;
 import br.com.yasmin.crud.models.User;
 import br.com.yasmin.crud.services.UserServices;
 
@@ -17,7 +16,7 @@ public class UserController
     {
         userServices.registerUser(user);
     }
-    public List<User> ReadUsers()
+    public List<User> readUsers()
     {
         return  userServices.getAllUsers();
     }
@@ -26,15 +25,15 @@ public class UserController
     {
         return userServices.getUserByEmail(email);
     }
-    public void UpdateUserEmail(String id, String newEmail)
+    public void updateUserEmail(String id, String newEmail)
     {
         userServices.updateUserEmail(id, newEmail);
     }
-    public void UpdateUserName(String id, String newName)
+    public void updateUserName(String id, String newName)
     {
         userServices.updateUserName(id, newName);
     }
-    public void UpdateUserAge(String id, int newAge)
+    public void updateUserAge(String id, int newAge)
     {
         userServices.updateUserAge(id, newAge);
     }

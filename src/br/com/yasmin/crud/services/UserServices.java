@@ -5,7 +5,7 @@ import java.util.List;
 import br.com.yasmin.crud.exceptions.*;
 
 public class UserServices {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     public UserServices(final UserRepository userRepository)
     {
         this.userRepository = userRepository;
