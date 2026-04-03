@@ -1,0 +1,9 @@
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\app\Main.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\console\UserInterface.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\controller\UserController.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\exceptions\EmailAlreadyExistsException.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\exceptions\UserNotFoundException.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\models\User.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\repository\UserRepository.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\repository\UserRepositoryInMemory.java
+C:\Users\yasmi\CRUD_MEMORY\src\main\java\br\com\yasmin\crud\services\UserServices.java
