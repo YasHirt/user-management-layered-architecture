@@ -7,6 +7,7 @@ import br.com.yasmin.crud.repository.UserRepository;
 import java.util.List;
 
 public class UserServices {
+
     private final UserRepository userRepository;
     public UserServices(final UserRepository userRepository)
     {

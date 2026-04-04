@@ -4,12 +4,11 @@ out/
 !src/br/com/yasmin/test/**/out/
 .kotlin
 .idea/
+*.class
 *.iml
 # Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
-
-
 
 ### Eclipse ###
 .apt_generated
