@@ -160,7 +160,7 @@ class UserServicesTest {
         });
     }
     @Test
-    void shouldNotChangeEmailIfOnlyChangedName()
+    void shouldNotChangeEmailIfOnlyNameChanged()
     {
         User u = new User("Yasmin", "YasminEmail", 1);
         userServices.registerUser(u);
@@ -170,5 +170,37 @@ class UserServicesTest {
         String emailAfter = u2.getEmail();
         assertEquals(emailBefore, emailAfter);
 
+    }
+    @Test
+    void shouldThrowExceptionWhenNewNameIsNull()
+    {
+        User u = new User("Yasmin", "YasminEmail", 1);
+        userServices.registerUser(u);
+        assertThrows(IllegalArgumentException.class, () ->
+        {
+           User j = userServices.getUserByEmail(u.getEmail());
+           userServices.updateUserName(j.getId(), null);
+        });
+    }
+    @Test
+    void shouldThrowExceptionWhenNewNameIsBlank()
+    {
+
+        User u = new User("Yasmin", "YasminEmail", 1);
+        userServices.registerUser(u);
+        assertThrows(IllegalArgumentException.class, () ->
+        {
+            User j = userServices.getUserByEmail(u.getEmail());
+            userServices.updateUserName(j.getId(), "  ");
+        });
+    }
+    @Test
+    void shouldThrowExceptionWhenEmailDoesNotExist()
+    {
+        String nonExistingEmail = "@gmail.com";
+        assertThrows(UserNotFoundException.class, () ->
+        {
+            userServices.getUserByEmail(nonExistingEmail);
+        });
     }
 }
