@@ -8,5 +8,8 @@ public interface UserRepository {
     public void deleteUserById(String id);
     public List<User> getAllUsers();
     public User findByEmail(String email);
+    public void updateName(String id, String name);
+    public void updateAge(String id, int age);
+    public void updateEmail(String id, String email);
 
 }

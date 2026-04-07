@@ -58,7 +58,7 @@ public class UserServices {
             throw new IllegalArgumentException("New name is null or blank");
         }
         User u = userRepository.getUserById(id);
-        u.setName(newName);
+        userRepository.updateName(u.getId(), newName);
     }
 
     public void updateUserAge(String id, int newAge)
@@ -68,7 +68,7 @@ public class UserServices {
         {
             throw new IllegalArgumentException("Age is negative or 0");
         }
-        u.setAge(newAge);
+        userRepository.updateAge(u.getId(), newAge);
     }
     public void updateUserEmail(String id, String newEmail)
     {
@@ -78,7 +78,7 @@ public class UserServices {
             throw new IllegalArgumentException("Email is null or blank");
         }
         verifyIfEmailIsUnique(newEmail);
-        u.setEmail(newEmail);
+        userRepository.updateEmail(u.getId(), newEmail);
     }
 
     public User getUserByEmail(String email)

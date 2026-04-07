@@ -46,4 +46,19 @@ public class UserRepositoryInMemory implements UserRepository {
         }
         return null;
     }
+
+    @Override
+    public void updateName(String id, String name) {
+    System.out.println("Name updated");
+            }
+
+    @Override
+    public void updateAge(String id, int age) {
+        System.out.println("gotta do this one");
+    }
+
+    @Override
+    public void updateEmail(String id, String email) {
+        System.out.println("gotta do this one");
+    }
 }

@@ -40,6 +40,9 @@ public class User {
         this.email = email;
         this.age = age;
     }
+    public void setId(String id) {
+        this.id = id;
+    }
     public User() {}
 
     @Override
