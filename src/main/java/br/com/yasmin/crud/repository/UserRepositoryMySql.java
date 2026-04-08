@@ -3,9 +3,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import br.com.yasmin.crud.exceptions.DatabaseException;
+import br.com.yasmin.crud.exceptions.UserNotFoundException;
 import br.com.yasmin.crud.models.User;
-
-
 public class UserRepositoryMySql implements UserRepository
 {
     private final String url;
@@ -42,13 +41,12 @@ public class UserRepositoryMySql implements UserRepository
                 if (rs.next()) {
                     return mapRow(rs);
                 }
-                return null;
+                throw new UserNotFoundException("User not found with this id");
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error getting user by id", e);
         }
     }
-
     @Override
     public void deleteUserById(String id) {
         String query = "DELETE FROM users WHERE id = ?";
@@ -63,7 +61,6 @@ public class UserRepositoryMySql implements UserRepository
         } catch (SQLException e) {
             throw new DatabaseException("Error deleting user by id", e);
         }
-
     }
 
     @Override
@@ -79,10 +76,9 @@ public class UserRepositoryMySql implements UserRepository
             }
             return users;
         } catch (SQLException e) {
-            throw new DatabaseException("Error getting users");
+            throw new DatabaseException("Error getting users", e);
         }
     }
-
     @Override
     public User findByEmail(String email) {
         String query = "SELECT * FROM users WHERE email = ?";
@@ -93,10 +89,10 @@ public class UserRepositoryMySql implements UserRepository
                 if (rs.next()) {
                     return mapRow(rs);
                 }
-                return null;
+                throw  new UserNotFoundException("User not found with this email");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error getting user by email");
+            throw new DatabaseException("Error getting user by email", e);
         }
 
 
@@ -122,7 +118,7 @@ public class UserRepositoryMySql implements UserRepository
                 throw new IllegalStateException("Illegal amount of rows affected " + rows);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error Updating name");
+            throw new DatabaseException("Error Updating name", e);
         }
 
     }
@@ -139,7 +135,7 @@ public class UserRepositoryMySql implements UserRepository
                 throw new IllegalStateException("Illegal amount of rows affected " + rows);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error updating age");
+            throw new DatabaseException("Error updating age", e);
         }
     }
     @Override
@@ -154,7 +150,7 @@ public class UserRepositoryMySql implements UserRepository
                 throw new IllegalStateException("Illegal amount of rows changed" + rows);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error updating email");
+            throw new DatabaseException("Error updating email", e);
         }
 
     }
