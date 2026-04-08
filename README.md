@@ -1,41 +1,86 @@
-# CRUD de Usuários (Em Memória) - Java
+# CRUD de Usuários - Java (Evolução: Memória → JDBC)
 
-Aplicação simples de CRUD desenvolvida em Java com o objetivo de praticar conceitos fundamentais de backend, como arquitetura em camadas, separação de responsabilidades e validação de regras de negócio.
+Aplicação de CRUD desenvolvida em Java com o objetivo de praticar fundamentos de backend, evoluindo de uma versão em memória para uma versão com persistência em banco de dados utilizando JDBC.
 
 ---
 
 ## Objetivo
-A proposta é simular a estrutura de um backend real **sem uso de frameworks**, priorizando organização de código, clareza e boas práticas.
 
+Simular a estrutura de um backend real sem uso de frameworks, priorizando:
+- organização de código
+- separação de responsabilidades
+- aplicação de boas práticas
+
+---
+
+##  Status do Projeto
+
+Em desenvolvimento ativo
+
+Atualmente o projeto já possui:
+- Arquitetura em camadas (Controller, Service, Repository)
+- Persistência em banco de dados (MySQL) via JDBC
+- Testes unitários com JUnit
+- Tratamento de exceções customizadas
 ---
 
 ## Arquitetura
 
-A aplicação segue o padrão de **arquitetura em camadas**, com responsabilidades bem definidas:
+A aplicação segue o padrão de arquitetura em camadas:
 
-- **Controller**: recebe as requisições da interface e delega para o service
-- **Service**: contém as regras de negócio e validações
-- **Repository**: abstrai o acesso aos dados
-- **Model**: representa a entidade de domínio (User)
-- **Console (UI)**: responsável pela interação com o usuário
+- **Controller**: recebe as interações da interface
+- **Service**: contém regras de negócio e validações
+- **Repository**: responsável pelo acesso aos dados
+- **Model**: representa a entidade de domínio (`User`)
+- **Console (UI)**: interação com o usuário
 
 ## Fluxo de dependência:
+
+
 UI → Controller → Service → Repository
 
 
-As dependências são injetadas manualmente, simulando o conceito de **Injeção de Dependência**, amplamente utilizado em frameworks como o Spring.
+O projeto utiliza injeção de dependência manual, simulando o comportamento de frameworks como o Spring.
+
+---
+
+## Persistência de Dados
+
+O projeto evoluiu de uma versão em memória para uma integração com banco de dados utilizando JDBC.
+
+Atualmente:
+- Uso de MySQL como banco de dados
+- Acesso via `DriverManager`
+- Uso de `PreparedStatement`
+- Implementação de repositório específico para banco (`UserRepositoryMySql`)
+
+As credenciais são carregadas via arquivo `.env`.
+
+---
+
+## Testes
+
+O projeto possui testes unitários focados na camada de negócio (Service), cobrindo:
+
+- Validação de email único
+- Usuário inexistente
+- Regras de validação de entrada
+
+Observação:
+Atualmente os testes utilizam banco real, sem isolamento completo.
 
 ---
 
 ## Conceitos Aplicados
 
-- Arquitetura em camadas (Controller, Service, Repository)
-- Separação de responsabilidades (Separation of Concerns)
-- Injeção de dependência (manual)
-- Uso de interfaces para abstração
+- Arquitetura em camadas
+- Separation of Concerns
+- Injeção de dependência manual
+- Uso de interfaces
+- JDBC
+- PreparedStatement
 - Tratamento de exceções customizadas
-- Validação de dados de entrada
-- Persistência em memória
+- Testes unitários com JUnit
 
 ---
 
@@ -48,53 +93,66 @@ As dependências são injetadas manualmente, simulando o conceito de **Injeção
 
 ---
 
-## Tratamento de Exceções
+## Versões do Projeto
 
-O projeto utiliza exceções customizadas para tornar o fluxo mais claro e evitar retornos ambíguos:
+**v1.0.0**
+- CRUD em memória
+- Arquitetura em camadas
+- Sem persistência
+- Sem testes
 
-- `EmailAlreadyExistsException`
-- `UserNotFoundException`
+**v1.0.1**
+- Adição de testes unitários
+- Melhorias na validação e tratamento de exceções
 
-Essa abordagem melhora a legibilidade e aproxima o código de cenários reais de backend.
+**v1.1.0 (atual)**
+- Integração com MySQL via JDBC
+- Implementação de repository com banco de dados
+- Uso de PreparedStatement
 
 ---
 
 ## Limitações
-
-- Os dados são armazenados apenas em memória (não persistem após execução)
-- Não há integração com banco de dados
 - Interface baseada em console
-- Ainda não possui testes automatizados
-
+- Sem uso de framework (Spring ainda não aplicado)
+- Sem pool de conexões
+  
 ---
 
 ## Próximos Passos
 
-Evoluções planejadas para aproximar o projeto de um ambiente backend real:
-
-- Integração com banco de dados (PostgreSQL)
-- Uso de JDBC ou JPA
-- Criação de API REST com Spring Boot
-- Implementação de testes unitários (JUnit)
-- Melhor modularização da camada de interface
+- Separar banco de teste e desenvolvimento
+- Introduzir Spring Boot
+- Criar API REST
+- Implementar JPA/Hibernate
+- Melhorar cobertura e isolamento de testes
+- Implementar pool de conexões
 
 ---
 
 ## Como Executar
 
 1. Clone o repositório
-2. Abra em uma IDE Java (IntelliJ, Eclipse, etc.)
+2. Configure o arquivo `.env` com:
+
+
+DB_URL=jdbc:mysql://localhost:3306/seu_banco
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+
+
 3. Execute a classe `Main`
 
-**Requisitos:**
-- Java 17 ou superior
+---
+
+## Requisitos
+
+- Java 17+
+- MySQL
+- Maven
 
 ---
 
-## Observação
+## Desenvolvedora
 
-Este projeto tem como foco o aprendizado de fundamentos. A estrutura adotada já segue princípios utilizados em aplicações com Spring, facilitando a evolução para frameworks mais robustos.
-
----
-
-**Desenvolvido por Yasmin Hirt**
+Yasmin Hirt
