@@ -67,8 +67,7 @@ O projeto possui testes unitários focados na camada de negócio (Service), cobr
 - Regras de validação de entrada
 
 Observação:
-Atualmente os testes utilizam banco real, sem isolamento completo.
-
+Atualmente não possui testes de integração.
 ---
 
 ## Conceitos Aplicados
