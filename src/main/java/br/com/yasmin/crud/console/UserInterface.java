@@ -1,6 +1,8 @@
 package br.com.yasmin.crud.console;
 
 import br.com.yasmin.crud.controller.UserController;
+import br.com.yasmin.crud.dto.ApiResponse;
+import br.com.yasmin.crud.dto.UserRequestDTO;
 import br.com.yasmin.crud.models.User;
 import br.com.yasmin.crud.exceptions.*;
 import java.util.Scanner;
@@ -209,21 +211,21 @@ public class UserInterface {
         }
     }
     private void handleCreateUser() {
-        User u = new User();
-        u.setName(setUserName());
-        u.setEmail(setUserEmail());
-        u.setAge(setUserAge());
+        UserRequestDTO userRequest = new UserRequestDTO(setUserName(), setUserEmail(), setUserAge());
         while (true)
         {
             try {
-                userController.registerUser(u);
+                ApiResponse apiResponse = userController.registerUser(userRequest);
                 System.out.println("User registered successfully");
+                System.out.println(apiResponse.userResponse());
+                System.out.println(apiResponse.status());
+                System.out.println(apiResponse.code());
                 break;
             }
             catch(EmailAlreadyExistsException e)
             {
                     System.out.println(e.getMessage());
-                    u.setEmail(setUserEmail());
+                    userRequest = new UserRequestDTO(userRequest.name(), setUserEmail(), userRequest.age());
             }
         }
         }

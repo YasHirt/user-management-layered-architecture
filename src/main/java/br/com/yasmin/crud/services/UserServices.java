@@ -1,9 +1,13 @@
 package br.com.yasmin.crud.services;
 
+import br.com.yasmin.crud.dto.UserRequestDTO;
+import br.com.yasmin.crud.dto.UserResponseDTO;
 import br.com.yasmin.crud.exceptions.EmailAlreadyExistsException;
 import br.com.yasmin.crud.exceptions.UserNotFoundException;
 import br.com.yasmin.crud.models.User;
 import br.com.yasmin.crud.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class UserServices {
@@ -26,24 +30,21 @@ public class UserServices {
         }
         return user;
     }
-    public void registerUser(User u)
+    public UserResponseDTO registerUser(UserRequestDTO u)
     {
-        if (u.getName() == null || u.getName().isBlank())
-        {
-            throw new IllegalArgumentException(" Username is null or blank");
-        }
-        if (u.getEmail() == null || u.getEmail().isBlank())
-        {
-            throw new IllegalArgumentException(" Email is null or blank");
-        }
-        if (u.getAge() <= 0)
-        {
-            throw new IllegalArgumentException(" Age is negative or 0");
-        }
-        verifyIfEmailIsUnique(u.getEmail());
-        userRepository.save(u);
-
+        verifyIfEmailIsUnique(u.email());
+        User user = toEntity(u);
+        User userSaved = userRepository.save(user);
+        return toDTO(userSaved);
     }
+    private User toEntity(UserRequestDTO u) {
+        return new User(u.name(), u.email(), u.age());
+    }
+    private UserResponseDTO toDTO(User u)
+    {
+        return new UserResponseDTO(u.getId(), u.getName(), u.getEmail(), u.getAge());
+    }
+
     public void deleteUser(String id)
     {
         validatesUserExists(id);

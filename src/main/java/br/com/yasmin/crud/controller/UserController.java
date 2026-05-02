@@ -1,19 +1,23 @@
 package br.com.yasmin.crud.controller;
 
+import br.com.yasmin.crud.dto.ApiResponse;
+import br.com.yasmin.crud.dto.UserRequestDTO;
+import br.com.yasmin.crud.dto.UserResponseDTO;
 import br.com.yasmin.crud.models.User;
 import br.com.yasmin.crud.services.UserServices;
 import java.util.List;
 
 public class UserController
 {
-    private UserServices userServices;
+    private final UserServices userServices;
     public  UserController(final UserServices userServices)
     {
         this.userServices = userServices;
     }
-    public void registerUser(User user)
+    public ApiResponse registerUser(UserRequestDTO user)
     {
-        userServices.registerUser(user);
+        UserResponseDTO userResponseDTO = userServices.registerUser(user);
+        return new ApiResponse(userResponseDTO, "OK", 200);
     }
     public List<User> readUsers()
     {
